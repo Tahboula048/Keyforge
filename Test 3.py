@@ -52,6 +52,20 @@ def decrypt(encrypted_message, key):
     decrypted_message = xor_encrypt_decrypt(encrypted_message, key)
     return decrypted_message
 
+def self_obfuscate():
+    """Obfusque le script en encodant son contenu en Base64."""
+    script_file = __file__  # Récupère le chemin du fichier actuel
+    with open(script_file, "r", encoding="utf-8") as f:
+        lines = f.read()  # Lit tout le contenu du script
+    
+    # Encode le script entier en Base64
+    obfuscated_code = base64.b64encode(lines.encode()).decode()
+    
+    # Réécrit le script pour qu'il exécute le code obfusqué
+    with open(script_file, "w", encoding="utf-8") as f:
+        f.write("import base64\n")
+        f.write("exec(base64.b64decode('''" + obfuscated_code + "''').decode())")
+
 if __name__ == "__main__":
     choice = input("Voulez-vous (E)ncrypter ou (D)écrypter un message ? ").strip().lower()
     
@@ -72,3 +86,7 @@ if __name__ == "__main__":
             print(f"Erreur : {e}")
     else:
         print(" Choix invalide")
+    
+    # Obfusque le code après exécution
+    self_obfuscate()
+    print("Le code a été obfusqué.")
