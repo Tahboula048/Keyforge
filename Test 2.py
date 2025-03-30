@@ -45,15 +45,15 @@ if __name__ == "__main__":
         message = input("Entrez le message à chiffrer : ")
         key, timestamp = generate_key()
         encrypted = encrypt(message, key)
-        print(f"🔒 Message chiffré : {encrypted}")
-        print(f"🗝️ Conservez cette valeur pour le déchiffrement : {timestamp}")
+        print(f" Message chiffré : {encrypted}")
+        print(f" Conservez cette valeur pour le déchiffrement : {timestamp}")
     elif choice == 'd':
         encrypted_message = input("Entrez le message à déchiffrer : ")
         timestamp = input("Entrez la clé de temps fournie lors du chiffrement : ")
         key, _ = generate_key(timestamp)
         decrypted = decrypt(encrypted_message, key)
-        print(f"🔓 Message déchiffré : {decrypted}")
+        print(f" Message déchiffré : {decrypted}")
     else:
-        print("❌ Choix invalide")
+        print(" Choix invalide")
     
     self_obfuscate()
