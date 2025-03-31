@@ -18,13 +18,13 @@ def generate_key(timestamp=None):
     return hashed_key, timestamp  # Retourne une clé de 32 octets et l'horodatage utilisé
 
 def xor_encrypt_decrypt(message, key):
-    """Chiffre ou déchiffre un message en utilisant XOR avec une clé."""
+    #Chiffre ou déchiffre un message en utilisant XOR avec une clé.
     key_length = len(key)
     result = ''.join(chr(ord(c) ^ key[i % key_length]) for i, c in enumerate(message))
     return result
 
 def encrypt(message, key):
-    """Chiffre un message avec XOR et ajoute un hachage pour l'intégrité."""
+    #Chiffre un message avec XOR et ajoute un hachage pour l'intégrité.
     # Chiffrement XOR
     encrypted_message = xor_encrypt_decrypt(message, key)
     
@@ -36,7 +36,7 @@ def encrypt(message, key):
     return base64.b64encode(combined.encode()).decode()
 
 def decrypt(encrypted_message, key):
-    """Déchiffre un message avec XOR et vérifie l'intégrité."""
+    #Déchiffre un message avec XOR et vérifie l'intégrité.
     # Décoder le message Base64
     combined = base64.b64decode(encrypted_message).decode()
     
@@ -46,14 +46,14 @@ def decrypt(encrypted_message, key):
     # Vérifier l'intégrité en recalculant le hachage
     recalculated_hash = hashlib.sha256(encrypted_message.encode()).hexdigest()
     if recalculated_hash != message_hash:
-        raise ValueError("L'intégrité du message a été compromise.")
+        raise ValueError("Integrity check failed: message may have been tampered with.")
     
     # Déchiffrement XOR
     decrypted_message = xor_encrypt_decrypt(encrypted_message, key)
     return decrypted_message
 
 def self_obfuscate():
-    """Obfusque le script en encodant son contenu en Base64."""
+    #Obfusque le script en encodant son contenu en Base64.
     script_file = __file__  # Récupère le chemin du fichier actuel
     with open(script_file, "r", encoding="utf-8") as f:
         lines = f.read()  # Lit tout le contenu du script
@@ -67,26 +67,26 @@ def self_obfuscate():
         f.write("exec(base64.b64decode('''" + obfuscated_code + "''').decode())")
 
 if __name__ == "__main__":
-    choice = input("Voulez-vous (E)ncrypter ou (D)écrypter un message ? ").strip().lower()
+    choice = input("Do you want (E)ncrypt or (D)ecrypt the message ? ")
     
-    if choice == 'e':
-        message = input("Entrez le message à chiffrer : ")
+    if choice == 'E':
+        message = input("Enter the message to encrypt : ")
         key, timestamp = generate_key()
         encrypted = encrypt(message, key)
-        print(f" Message chiffré : {encrypted}")
-        print(f" Conservez cette valeur pour le déchiffrement : {timestamp}")
-    elif choice == 'd':
-        encrypted_message = input("Entrez le message à déchiffrer : ")
-        timestamp = input("Entrez la clé de temps fournie lors du chiffrement : ")
+        print(f" Encrypted message : {encrypted}")
+        print(f" Keep the time key : {timestamp}")
+    elif choice == 'D':
+        encrypted_message = input("Enter the  message to decrypt : ")
+        timestamp = input("Enter the time key : ")
         key, _ = generate_key(timestamp)
         try:
             decrypted = decrypt(encrypted_message, key)
-            print(f" Message déchiffré : {decrypted}")
+            print(f" Decrypted message : {decrypted}")
         except ValueError as e:
-            print(f"Erreur : {e}")
+            print(f"Error : {e}")
     else:
-        print(" Choix invalide")
+        print(" Invalid choice. Please enter 'E' or 'D'.")
     
     # Obfusque le code après exécution
     self_obfuscate()
-    print("Le code a été obfusqué.")
+    
