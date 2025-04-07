@@ -2,26 +2,23 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Button, Label, Entry, Style
 from PIL import Image, ImageTk  # Pour afficher un logo
-from Test_4 import encrypt_file, decrypt_file, generate_key  # Importer les fonctions nécessaires
+import Secure_Files_System as sfs # Importer les fonctions nécessaires
 
 def browse_input_file():
-    """
-    Permet à l'utilisateur de sélectionner un fichier d'entrée.
-    """
+    #Permet à l'utilisateur de sélectionner un fichier d'entrée.
+
     file_path = filedialog.askopenfilename(title="Select Input File")
     input_file_var.set(file_path)
 
-def browse_output_file():
-    """
-    Permet à l'utilisateur de sélectionner un fichier de sortie.
-    """
+def browse_output_file(): 
+    #Permet à l'utilisateur de sélectionner un fichier de sortie.
+
     file_path = filedialog.asksaveasfilename(title="Select Output File")
     output_file_var.set(file_path)
 
 def encrypt_action():
-    """
-    Action pour chiffrer un fichier.
-    """
+    #Action pour chiffrer un fichier.
+
     input_file = input_file_var.get()
     output_file = output_file_var.get()
     if not input_file or not output_file:
@@ -29,17 +26,16 @@ def encrypt_action():
         return
     try:
         # Générer la clé et le timestamp
-        key, timestamp = generate_key()
+        key, timestamp = sfs.generate_key()
         # Chiffrer le fichier
-        encrypt_file(input_file, output_file, key)
+        sfs.encrypt_file(input_file, output_file, key)
         messagebox.showinfo("Success", f"File encrypted successfully.\nKeep this key to decrypt: {timestamp}")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
 
 def decrypt_action():
-    """
-    Action pour déchiffrer un fichier.
-    """
+    #Action pour déchiffrer un fichier.
+
     input_file = input_file_var.get()
     output_file = output_file_var.get()
     timestamp = timestamp_var.get()
@@ -48,9 +44,9 @@ def decrypt_action():
         return
     try:
         # Générer la clé à partir du timestamp
-        key, _ = generate_key(timestamp)
+        key, _ = sfs.generate_key(timestamp)
         # Déchiffrer le fichier
-        decrypt_file(input_file, output_file, key)
+        sfs.decrypt_file(input_file, output_file, key)
         messagebox.showinfo("Success", "File decrypted successfully.")
     except ValueError as e:
         messagebox.showerror("Error", f"Integrity check failed: {e}")
