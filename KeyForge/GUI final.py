@@ -60,9 +60,9 @@ root.geometry("600x600")
 root.resizable(False, False)
 root.configure(bg="#f4f4f4")  # Couleur de fond
 
-# Ajouter un logo
+# Ajouter un logox
 try:
-    logo_image = Image.open("logo.png")  # Assurez-vous d'avoir un fichier logo.png dans le même dossier
+    logo_image = Image.open("C:/Users/samue/GitHub/Auto-Algo/KeyForge/logo.png")  # Assurez-vous d'avoir un fichier logo.png dans le même dossier
     logo_image = logo_image.resize((100, 100), Image.Resampling.LANCZOS)
     logo = ImageTk.PhotoImage(logo_image)
     logo_label = tk.Label(root, image=logo, bg="#f4f4f4")
