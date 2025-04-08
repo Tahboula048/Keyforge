@@ -1,23 +1,23 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Button, Label, Entry, Style
-from PIL import Image, ImageTk  # Pour afficher un logo
-import Secure_Files_System as sfs # Importer les fonctions nécessaires
+from PIL import Image, ImageTk  # Take logo
+import Secure_Files_System as sfs # Import the encryption system
 
 def browse_input_file():
-    #Permet à l'utilisateur de sélectionner un fichier d'entrée.
+    # The user choose the file.
 
     file_path = filedialog.askopenfilename(title="Select Input File")
     input_file_var.set(file_path)
 
 def browse_output_file():
-    #Permet à l'utilisateur de sélectionner un fichier de sortie.
+    # The user choose the output file.
 
     file_path = filedialog.asksaveasfilename(title="Select Output File")
     output_file_var.set(file_path)
 
 def encrypt_action():
-    #Action pour chiffrer un fichier.
+    # Encryption.
 
     input_file = input_file_var.get()
     output_file = output_file_var.get()
@@ -25,16 +25,16 @@ def encrypt_action():
         messagebox.showerror("Error", "Please select both input and output files.")
         return
     try:
-        # Générer la clé et le timestamp
+        # Generate a key and timestamp
         key, timestamp = sfs.generate_key()
-        # Chiffrer le fichier
+        # Encrypt the file
         sfs.encrypt_file(input_file, output_file, key)
         messagebox.showinfo("Success", f"File encrypted successfully.\nKeep this key to decrypt: {timestamp}")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
 
 def decrypt_action():
-    #Action pour déchiffrer un fichier.
+    # Decryption.
 
     input_file = input_file_var.get()
     output_file = output_file_var.get()
@@ -43,24 +43,24 @@ def decrypt_action():
         messagebox.showerror("Error", "Please select input/output files and provide the time key.")
         return
     try:
-        # Générer la clé à partir du timestamp
         key, _ = sfs.generate_key(timestamp)
-        # Déchiffrer le fichier
+
         sfs.decrypt_file(input_file, output_file, key)
         messagebox.showinfo("Success", "File decrypted successfully.")
+    # Check the integrity of the file
     except ValueError as e:
         messagebox.showerror("Error", f"Integrity check failed: {e}")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
 
-# Configuration de l'interface
+# Interface configuration
 root = tk.Tk()
 root.title("File Encryption/Decryption")
 root.geometry("600x600")
 root.resizable(False, False)
 root.configure(bg="#f4f4f4")  # Couleur de fond
 
-# Ajouter un logox
+# Add logo
 try:
     logo_image = Image.open("C:/Users/samue/GitHub/Auto-Algo/KeyForge/logo.png")  # Assurez-vous d'avoir un fichier logo.png dans le même dossier
     logo_image = logo_image.resize((100, 100), Image.Resampling.LANCZOS)
@@ -70,7 +70,7 @@ try:
 except Exception as e:
     print(f"Logo not found: {e}")
 
-# Style professionnel
+# Style configuration
 style = Style()
 style.configure("TLabel", font=("Arial", 12), background="#f4f4f4")
 style.configure("TButton", font=("Arial", 12), padding=5)
@@ -92,7 +92,7 @@ Button(root, text="Browse", command=browse_output_file, style="TButton").pack(pa
 Label(root, text="Time Key (for decryption):", style="TLabel").pack(pady=10)
 tk.Entry(root, textvariable=timestamp_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
 
-# Boutons pour chiffrer et déchiffrer
+# Boutons
 encrypt_button = tk.Button(
     root, text="Encrypt", command=encrypt_action, bg="#4CAF50", fg="white",
     font=("Arial", 12), relief="flat", highlightthickness=0
@@ -105,5 +105,5 @@ decrypt_button = tk.Button(
 )
 decrypt_button.pack(pady=10, ipadx=10, ipady=5)
 
-# Lancer l'interface
+# Run the application
 root.mainloop()
