@@ -1,23 +1,23 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from tkinter.ttk import Button, Label, Entry, Style
-from PIL import Image, ImageTk  # He uses PIL for image handling
-import Secure_Files_System as sfs # Import the secure system
+from PIL import Image, ImageTk  # Pour afficher un logo
+import Secure_Files_System as sfs # Importer les fonctions nécessaires
 
 def browse_input_file():
-    # Upload the file.
+    #Permet à l'utilisateur de sélectionner un fichier d'entrée.
 
     file_path = filedialog.askopenfilename(title="Select Input File")
     input_file_var.set(file_path)
 
-def browse_output_file(): 
-    #Select the output file.
+def browse_output_file():
+    #Permet à l'utilisateur de sélectionner un fichier de sortie.
 
     file_path = filedialog.asksaveasfilename(title="Select Output File")
     output_file_var.set(file_path)
 
 def encrypt_action():
-    # Encryption of the file.
+    #Action pour chiffrer un fichier.
 
     input_file = input_file_var.get()
     output_file = output_file_var.get()
@@ -56,7 +56,7 @@ def decrypt_action():
 # Configuration de l'interface
 root = tk.Tk()
 root.title("File Encryption/Decryption")
-root.geometry("600x400")
+root.geometry("600x600")
 root.resizable(False, False)
 root.configure(bg="#f4f4f4")  # Couleur de fond
 
@@ -82,15 +82,15 @@ timestamp_var = tk.StringVar()
 
 # Widgets
 Label(root, text="Input File:", style="TLabel").pack(pady=10)
-Entry(root, textvariable=input_file_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
+tk.Entry(root, textvariable=input_file_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
 Button(root, text="Browse", command=browse_input_file, style="TButton").pack(pady=5)
 
 Label(root, text="Output File:", style="TLabel").pack(pady=10)
-Entry(root, textvariable=output_file_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
+tk.Entry(root, textvariable=output_file_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
 Button(root, text="Browse", command=browse_output_file, style="TButton").pack(pady=5)
 
 Label(root, text="Time Key (for decryption):", style="TLabel").pack(pady=10)
-Entry(root, textvariable=timestamp_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
+tk.Entry(root, textvariable=timestamp_var, width=50, font=("Arial", 10), relief="flat").pack(pady=5)
 
 # Boutons pour chiffrer et déchiffrer
 encrypt_button = tk.Button(
@@ -105,5 +105,5 @@ decrypt_button = tk.Button(
 )
 decrypt_button.pack(pady=10, ipadx=10, ipady=5)
 
-# Run interface
+# Lancer l'interface
 root.mainloop()
